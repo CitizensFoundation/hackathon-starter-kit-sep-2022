@@ -1,7 +1,6 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 
-import 'vanilla-colorful';
 import { Layouts } from './flexbox-literals/classes';
 import { YpBaseElement } from './yp-base-element';
 
@@ -18,9 +17,9 @@ export class YpEmailTemplates extends YpBaseElement {
   }
 
   handleClicked(event: CustomEvent) {
-    setTimeout( () => {
-      alert("CLICKED");
-    }, 300)
+    setTimeout(() => {
+      alert('CLICKED');
+    }, 300);
   }
 
   static get styles() {

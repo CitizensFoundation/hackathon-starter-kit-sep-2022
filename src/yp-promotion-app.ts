@@ -158,7 +158,7 @@ export class YpPromotionApp extends YpBaseElement {
 
   static get styles() {
     return [
-//      super.styles,
+      //      super.styles,
       Layouts,
       css`
         :host {
@@ -245,11 +245,13 @@ export class YpPromotionApp extends YpBaseElement {
     if (this.adminConfirmed) {
       switch (this.pageIndex) {
         case PagesTypes.EmailLists:
-          return html` ${cache(html`<yp-email-templates> </yp-email-templates>`)} `;
+          return html`
+            ${cache(html`<yp-email-templates> </yp-email-templates>`)}
+          `;
         case PagesTypes.Campaign:
         case PagesTypes.AiAnalysis:
         case PagesTypes.Analytics:
-            return html`Not in this hackathon template`;
+          return html`Not in this hackathon template`;
         case PagesTypes.Settings:
           return html`
             ${cache(html`<yp-promotion-settings
