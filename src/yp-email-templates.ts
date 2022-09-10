@@ -187,8 +187,8 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .templateImage {
-          width: 250px;
-          height: 260px;
+          width: 230px;
+          height: 240px;
         }
 
         .divider {
@@ -385,11 +385,23 @@ export class YpEmailTemplates extends YpBaseElement {
 
   renderTextsAndImageInputs() {
     return html`
+    <div class="layout vertical">
+      <div class="topTemplateHeader">
+        Text & Images
+      </div>
+
       <md-outlined-text-field
         class="formField"
         id="emailTitle"
         @keydown="${this.inputsChanged}"
         label="Title"
+      ></md-outlined-text-field>
+
+      <md-outlined-text-field
+        class="formField"
+        id="callToAction"
+        @keydown="${this.inputsChanged}"
+        label="Call to action"
       ></md-outlined-text-field>
 
       <mwc-textarea
@@ -415,25 +427,7 @@ export class YpEmailTemplates extends YpBaseElement {
         @keydown="${this.inputsChanged}"
       >
       </mwc-textarea>
-
-      <md-outlined-text-field
-        class="formField"
-        id="callToAction"
-        @keydown="${this.inputsChanged}"
-        label="Link text"
-      ></md-outlined-text-field>
-
-      <mwc-textarea
-        rows="5"
-        id="footer"
-        class="rounded formField"
-        label="Footer"
-        outlined
-        charCounter
-        maxLength="300"
-        @keydown="${this.inputsChanged}"
-      >
-      </mwc-textarea>
+    </div>
     `;
   }
 
