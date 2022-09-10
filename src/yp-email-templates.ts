@@ -20,11 +20,15 @@ import '@material/web/checkbox/checkbox.js';
 import '@material/web/iconbutton/standard-icon-button.js';
 import '@material/web/textfield/outlined-text-field.js';
 
+import '@material/web/iconbutton/outlined-icon-button.js';
+
 import { Dialog } from '@material/mwc-dialog';
 import { TonalButton } from '@material/web/button/lib/tonal-button.js';
 import { TextArea } from '@material/mwc-textarea/mwc-textarea.js';
 import { OutlinedTextField } from '@material/web/textfield/lib/outlined-text-field';
 import { Checkbox } from '@material/web/checkbox/lib/checkbox.js';
+
+import './yp-image.js';
 
 const PagesTypes = {
   ChooseTemplate: 1,
@@ -64,6 +68,29 @@ export class YpEmailTemplates extends YpBaseElement {
 
   @property({ type: Number })
   pageIndex = 1;
+
+  emailTemplates = [
+    {
+      name: 'Template 1',
+      imageUrl:
+        'https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template1.png',
+    },
+    {
+      name: 'Template 2',
+      imageUrl:
+        'https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template2.png',
+    },
+    {
+      name: 'Template 3',
+      imageUrl:
+        'https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template3.png',
+    },
+    {
+      name: 'Template 4',
+      imageUrl:
+        'https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template4.png',
+    },
+  ];
 
   connectedCallback() {
     super.connectedCallback();
@@ -111,6 +138,86 @@ export class YpEmailTemplates extends YpBaseElement {
 
         mwc-textarea.rounded {
           --mdc-shape-small: 4px;
+        }
+
+        .forwardButton {
+          position: absolute;
+          top: 16px;
+          right: 32px;
+        }
+
+        .backButton {
+          position: absolute;
+          top: 16px;
+          left: 232px;
+        }
+
+        .templateContainer {
+          max-width: 800px;
+        }
+
+        .template {
+          cursor: pointer;
+          margin: 16px;
+        }
+
+        .headerImage {
+          width: 600px;
+          height: 300px;
+        }
+
+        .footerImage {
+          width: 100px;
+          height: 100px;
+        }
+
+        .mainText {
+          margin: 32px;
+          font-size: 16px;
+          color: #000;
+        }
+
+        .button {
+          padding: 16px;
+          color: #000;
+        }
+
+        [hidden] {
+          display: none !important;
+        }
+
+        .templateImage {
+          width: 350px;
+          height: 380px;
+        }
+
+        .divider {
+          border-bottom: 1px solid;
+          padding-top: 8px;
+          padding-bottom: 8px;
+        }
+
+        .topTemplateHeader {
+          font-size: 26px;
+        }
+
+        .saveTemplateHeader {
+          font-size: 24px;
+          margin-top: 16px;
+        }
+
+        .singleTemplate {
+          margin: 32px;
+        }
+
+        .templateFooter {
+          font-size: 16px;
+          text-align: center;
+          padding-top: 4px;
+        }
+
+        .page {
+          margin-top: 64px;
         }
       `,
     ];
@@ -178,40 +285,70 @@ export class YpEmailTemplates extends YpBaseElement {
 
   renderEmailTemplate(template: any) {
     return html`
-      <div class="layout vertical center-center">
+      <div
+        class="layout vertical center-center template"
+        @click="${this.nextPage}"
+      >
         <img src="${template.imageUrl}" />
         <div class="name">${template.name}</div>
       </div>
     `;
   }
 
-  emailTemplates = [
-    {
-      name: 'Template 1',
-      imageUrl: 'https://picsum.photos/200/300',
-    },
-    {
-      name: 'Template 2',
-      imageUrl: 'https://picsum.photos/200/301',
-    },
-    {
-      name: 'Template 3',
-      imageUrl: 'https://picsum.photos/200/302',
-    },
-    {
-      name: 'Template 4',
-      imageUrl: 'https://picsum.photos/200/303',
-    },
-    {
-      name: 'Template 5',
-      imageUrl: 'https://picsum.photos/200/304',
-    },
-  ];
+  renderChooseTemplateOld() {
+    return html`
+      <div class="layout horizontal wrap templateContainer">
+        ${this.emailTemplates.map(t => this.renderEmailTemplate(t))}
+      </div>
+    `;
+  }
 
   renderChooseTemplate() {
     return html`
-      <div class="layout horizontal wrap">
-        ${this.emailTemplates.map(t => this.renderEmailTemplate(t))}
+      <div class="layout vertical center-center">
+        <div class="layout vertical">
+        <div class="topTemplateHeader">Select Template</div>
+
+        <div class="layout horizontal templateRow">
+          <div class="singleTemplate">
+            <yp-image
+              sizing="cover"
+              class="templateImage"
+              src="https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template1.png"
+            ></yp-image>
+            <div class="templateFooter">Description</div>
+          </div>
+          <div class="singleTemplate">
+            <yp-image
+              sizing="cover"
+              class="templateImage"
+              src="https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template2.png"
+            ></yp-image>
+            <div class="templateFooter">Description</div>
+          </div>
+        </div>
+
+        <div class="topTemplateHeader saveTemplateHeader">Saved templates</div>
+
+        <div class="layout horizontal templateRow">
+          <div class="singleTemplate">
+            <yp-image
+              sizing="cover"
+              class="templateImage"
+              src="https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template3.png"
+            ></yp-image>
+            <div class="templateFooter">Description</div>
+          </div>
+          <div class="singleTemplate">
+            <yp-image
+              sizing="cover"
+              class="templateImage"
+              src="https://yrpri-eu-direct-assets.s3.eu-west-1.amazonaws.com/template4.png"
+            ></yp-image>
+            <div class="templateFooter">Description</div>
+          </div>
+        </div>
+        </div>
       </div>
     `;
   }
@@ -246,7 +383,7 @@ export class YpEmailTemplates extends YpBaseElement {
     `;
   }
 
-  renderTexts() {
+  renderTextsAndImageInputs() {
     return html`
       <md-outlined-text-field
         class="formField"
@@ -307,13 +444,58 @@ export class YpEmailTemplates extends YpBaseElement {
       case PagesTypes.ColorsAndFonts:
         return this.renderColorAndFonts();
       case PagesTypes.Texts:
-        return this.renderTexts();
+        return this.renderTextsAndImageInputs();
       case PagesTypes.Preview:
         return this.renderPreview();
     }
   }
 
+  nextPage() {
+    if (this.pageIndex < PagesTypes.Preview) {
+      this.pageIndex++;
+    }
+  }
+
+  previousPage() {
+    if (this.pageIndex > PagesTypes.ChooseTemplate) {
+      this.pageIndex--;
+    }
+  }
+
   renderPreview() {
+    return html`
+      <div
+        class="layout vertical header center-center"
+        style="background-color:${this.backgroundColor}"
+      >
+        <yp-image
+          class="headerImage"
+          sizing="cover"
+          src="https://picsum.photos/500/100"
+        ></yp-image>
+
+        <div class="divider" style="border-color: ${this.primaryColor}"></div>
+
+        <div class="mainText" style="color:${this.accentColor}">
+          ${this.mainParagraph}
+        </div>
+
+        <div class="button" style="background-color:${this.accentColor}">
+          ${this.callToAction}
+        </div>
+
+        <div class="divider" style="border-color: ${this.primaryColor}"></div>
+        <div class="mainText" color="${this.accentColor}">${this.footer}</div>
+        <yp-image
+          class="footerImage"
+          sizing="cover"
+          src="https://picsum.photos/100/100"
+        ></yp-image>
+      </div>
+    `;
+  }
+
+  renderPreviewMjml() {
     const text = `
       <mjml>
         <mj-body>
@@ -349,10 +531,23 @@ export class YpEmailTemplates extends YpBaseElement {
 
   render() {
     return html`
-     <div class="layout vertical">
-      <md-outlined-button label="Next" @click="${() => { this.pageIndex++}}"></md-outlined-button>
-       ${this._renderPage()}
-     </div>
+      <div class="layout vertical">
+        <md-outlined-button
+          ?hidden="${this.pageIndex == 1}"
+          class="backButton"
+          label="Previous"
+          @click="${this.previousPage}"
+        ></md-outlined-button>
+        <md-outlined-button
+          ?hidden="${this.pageIndex == 4}"
+          class="forwardButton"
+          label="Next"
+          @click="${this.nextPage}"
+        ></md-outlined-button>
+        <div class="page">
+        ${this._renderPage()}
+        </div>
+      </div>
     `;
   }
 }
