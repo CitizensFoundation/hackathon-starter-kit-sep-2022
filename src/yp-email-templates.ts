@@ -207,7 +207,7 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .singleTemplate {
-          margin: 24px;
+          margin: 22px;
         }
 
         .templateFooter {
@@ -217,7 +217,7 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .page {
-          margin-top: 64px;
+          margin-top: 32px;
         }
       `,
     ];
