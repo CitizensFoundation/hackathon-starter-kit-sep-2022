@@ -26,6 +26,13 @@ import { TextArea } from '@material/mwc-textarea/mwc-textarea.js';
 import { OutlinedTextField } from '@material/web/textfield/lib/outlined-text-field';
 import { Checkbox } from '@material/web/checkbox/lib/checkbox.js';
 
+const PagesTypes = {
+  ChooseTemplate: 1,
+  ColorsAndFonts: 2,
+  Texts: 3,
+  Preview: 4,
+};
+
 @customElement('yp-email-templates')
 export class YpEmailTemplates extends YpBaseElement {
   @property({ type: String })
@@ -54,6 +61,9 @@ export class YpEmailTemplates extends YpBaseElement {
 
   @property({ type: String })
   callToAction: string | undefined;
+
+  @property({ type: Number })
+  pageIndex = 1;
 
   connectedCallback() {
     super.connectedCallback();
@@ -122,81 +132,7 @@ export class YpEmailTemplates extends YpBaseElement {
   renderTextInputs() {
     return html`
       <div class="layout horizontal">
-        <div class="layout vertical">
-          <md-outlined-text-field
-            class="formField"
-            id="primaryColor"
-            @keydown="${this.inputsChanged}"
-            label="Primary color"
-            .value="${this.primaryColor}"
-          ></md-outlined-text-field>
-
-          <md-outlined-text-field
-            class="formField"
-            id="accentColor"
-            @keydown="${this.inputsChanged}"
-            label="Accent color"
-            .value="${this.accentColor}"
-          ></md-outlined-text-field>
-
-          <md-outlined-text-field
-            class="formField"
-            id="backgroundColor"
-            @keydown="${this.inputsChanged}"
-            label="Background color"
-            .value="${this.backgroundColor}"
-          ></md-outlined-text-field>
-
-          <md-outlined-text-field
-            class="formField"
-            id="emailTitle"
-            @keydown="${this.inputsChanged}"
-            label="Title"
-          ></md-outlined-text-field>
-
-          <mwc-textarea
-            rows="5"
-            id="shortDescription"
-            class="rounded formField"
-            label="Short description"
-            outlined
-            charCounter
-            maxLength="250"
-            @keydown="${this.inputsChanged}"
-          >
-          </mwc-textarea>
-
-          <mwc-textarea
-            rows="5"
-            id="mainParagraph"
-            class="rounded formField"
-            label="Main paragraph"
-            outlined
-            charCounter
-            maxLength="300"
-            @keydown="${this.inputsChanged}"
-          >
-          </mwc-textarea>
-
-          <md-outlined-text-field
-            class="formField"
-            id="callToAction"
-            @keydown="${this.inputsChanged}"
-            label="Link text"
-          ></md-outlined-text-field>
-
-          <mwc-textarea
-            rows="5"
-            id="footer"
-            class="rounded formField"
-            label="Footer"
-            outlined
-            charCounter
-            maxLength="300"
-            @keydown="${this.inputsChanged}"
-          >
-          </mwc-textarea>
-        </div>
+        <div class="layout vertical"></div>
       </div>
     `;
   }
@@ -240,7 +176,144 @@ export class YpEmailTemplates extends YpBaseElement {
     `;
   }
 
-  renderMjml() {
+  renderEmailTemplate(template: any) {
+    return html`
+      <div class="layout vertical center-center">
+        <img src="${template.imageUrl}" />
+        <div class="name">${template.name}</div>
+      </div>
+    `;
+  }
+
+  emailTemplates = [
+    {
+      name: 'Template 1',
+      imageUrl: 'https://picsum.photos/200/300',
+    },
+    {
+      name: 'Template 2',
+      imageUrl: 'https://picsum.photos/200/301',
+    },
+    {
+      name: 'Template 3',
+      imageUrl: 'https://picsum.photos/200/302',
+    },
+    {
+      name: 'Template 4',
+      imageUrl: 'https://picsum.photos/200/303',
+    },
+    {
+      name: 'Template 5',
+      imageUrl: 'https://picsum.photos/200/304',
+    },
+  ];
+
+  renderChooseTemplate() {
+    return html`
+      <div class="layout horizontal wrap">
+        ${this.emailTemplates.map(t => this.renderEmailTemplate(t))}
+      </div>
+    `;
+  }
+
+  renderColorAndFonts() {
+    return html`
+      <div class="layout horizontal wrap">
+        <md-outlined-text-field
+          class="formField"
+          id="primaryColor"
+          @keydown="${this.inputsChanged}"
+          label="Primary color"
+          .value="${this.primaryColor}"
+        ></md-outlined-text-field>
+
+        <md-outlined-text-field
+          class="formField"
+          id="accentColor"
+          @keydown="${this.inputsChanged}"
+          label="Accent color"
+          .value="${this.accentColor}"
+        ></md-outlined-text-field>
+
+        <md-outlined-text-field
+          class="formField"
+          id="backgroundColor"
+          @keydown="${this.inputsChanged}"
+          label="Background color"
+          .value="${this.backgroundColor}"
+        ></md-outlined-text-field>
+      </div>
+    `;
+  }
+
+  renderTexts() {
+    return html`
+      <md-outlined-text-field
+        class="formField"
+        id="emailTitle"
+        @keydown="${this.inputsChanged}"
+        label="Title"
+      ></md-outlined-text-field>
+
+      <mwc-textarea
+        rows="5"
+        id="shortDescription"
+        class="rounded formField"
+        label="Short description"
+        outlined
+        charCounter
+        maxLength="250"
+        @keydown="${this.inputsChanged}"
+      >
+      </mwc-textarea>
+
+      <mwc-textarea
+        rows="5"
+        id="mainParagraph"
+        class="rounded formField"
+        label="Main paragraph"
+        outlined
+        charCounter
+        maxLength="300"
+        @keydown="${this.inputsChanged}"
+      >
+      </mwc-textarea>
+
+      <md-outlined-text-field
+        class="formField"
+        id="callToAction"
+        @keydown="${this.inputsChanged}"
+        label="Link text"
+      ></md-outlined-text-field>
+
+      <mwc-textarea
+        rows="5"
+        id="footer"
+        class="rounded formField"
+        label="Footer"
+        outlined
+        charCounter
+        maxLength="300"
+        @keydown="${this.inputsChanged}"
+      >
+      </mwc-textarea>
+    `;
+  }
+
+  _renderPage() {
+    switch (this.pageIndex) {
+      case PagesTypes.ChooseTemplate:
+        return this.renderChooseTemplate();
+      case PagesTypes.ColorsAndFonts:
+        return this.renderColorAndFonts();
+      case PagesTypes.Texts:
+        return this.renderTexts();
+      case PagesTypes.Preview:
+        return this.renderPreview();
+    }
+  }
+
+  renderPreview() {
     const text = `
       <mjml>
         <mj-body>
@@ -269,20 +342,17 @@ export class YpEmailTemplates extends YpBaseElement {
           </mj-section>
         </mj-body>
       </mjml>
-    `
+    `;
 
     return html`<pre>${text}</pre>`;
   }
 
   render() {
     return html`
-      <div class="layout horizontal">
-        <div class="layout vertical center-center">
-          ${this.renderTextInputs()}
-        </div>
-        <div class="layout vertical center-center">${this.renderMjml()}</div>
-      </div>
-      ${this.renderHelloWorldDialog()}
+     <div class="layout vertical">
+      <md-outlined-button label="Next" @click="${() => { this.pageIndex++}}"></md-outlined-button>
+       ${this._renderPage()}
+     </div>
     `;
   }
 }
