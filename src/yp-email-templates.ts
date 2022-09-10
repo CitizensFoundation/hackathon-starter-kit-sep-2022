@@ -7,7 +7,7 @@ import { YpBaseElement } from './yp-base-element';
 import '@material/web/fab/fab-extended.js';
 
 import '@material/mwc-dialog';
-
+import '@material/mwc-textarea/mwc-textarea.js';
 import '@material/web/fab/fab-extended.js';
 import '@material/web/formfield/formfield.js';
 import '@material/web/radio/radio.js';
@@ -30,6 +30,30 @@ import { Checkbox } from '@material/web/checkbox/lib/checkbox.js';
 export class YpEmailTemplates extends YpBaseElement {
   @property({ type: String })
   something: string | undefined;
+
+  @property({ type: String })
+  emailTitle: string | undefined;
+
+  @property({ type: String })
+  primaryColor = '#112211';
+
+  @property({ type: String })
+  accentColor = '#FF0000';
+
+  @property({ type: String })
+  backgroundColor = '#FAFAFA';
+
+  @property({ type: String })
+  shortDescription: string | undefined;
+
+  @property({ type: String })
+  mainParagraph: string | undefined;
+
+  @property({ type: String })
+  footer: string | undefined;
+
+  @property({ type: String })
+  callToAction: string | undefined;
 
   connectedCallback() {
     super.connectedCallback();
@@ -59,8 +83,122 @@ export class YpEmailTemplates extends YpBaseElement {
         md-outlined-text-field {
           margin-top: 24px;
         }
+
+        mwc-textarea {
+          width: 350px;
+          --mdc-theme-primary: var(--md-sys-color-primary);
+          --mdc-text-field-ink-color: var(--md-sys-color-on-surface);
+          --mdc-text-area-outlined-hover-border-color: var(
+            --md-sys-color-on-surface
+          );
+          --mdc-text-area-outlined-idle-border-color: var(
+            --md-sys-color-on-surface
+          );
+          --mdc-notched-outline-border-color: var(
+            --md-sys-color-on-surface-variant
+          );
+        }
+
+        mwc-textarea.rounded {
+          --mdc-shape-small: 4px;
+        }
       `,
     ];
+  }
+
+  async inputsChanged() {
+    this.callToAction = (this.$$('#callToAction') as OutlinedTextField).value;
+    this.primaryColor = (this.$$('#primaryColor') as OutlinedTextField).value;
+    this.accentColor = (this.$$('#accentColor') as OutlinedTextField).value;
+    this.backgroundColor = (
+      this.$$('#backgroundColor') as OutlinedTextField
+    ).value;
+    this.emailTitle = (this.$$('#emailTitle') as OutlinedTextField).value;
+    this.shortDescription = (this.$$('#shortDescription') as TextArea).value;
+    this.mainParagraph = (this.$$('#mainParagraph') as TextArea).value;
+    this.footer = (this.$$('#footer') as TextArea).value;
+  }
+
+  renderTextInputs() {
+    return html`
+      <div class="layout horizontal">
+        <div class="layout vertical">
+          <md-outlined-text-field
+            class="formField"
+            id="primaryColor"
+            @keydown="${this.inputsChanged}"
+            label="Primary color"
+            .value="${this.primaryColor}"
+          ></md-outlined-text-field>
+
+          <md-outlined-text-field
+            class="formField"
+            id="accentColor"
+            @keydown="${this.inputsChanged}"
+            label="Accent color"
+            .value="${this.accentColor}"
+          ></md-outlined-text-field>
+
+          <md-outlined-text-field
+            class="formField"
+            id="backgroundColor"
+            @keydown="${this.inputsChanged}"
+            label="Background color"
+            .value="${this.backgroundColor}"
+          ></md-outlined-text-field>
+
+          <md-outlined-text-field
+            class="formField"
+            id="emailTitle"
+            @keydown="${this.inputsChanged}"
+            label="Title"
+          ></md-outlined-text-field>
+
+          <mwc-textarea
+            rows="5"
+            id="shortDescription"
+            class="rounded formField"
+            label="Short description"
+            outlined
+            charCounter
+            maxLength="250"
+            @keydown="${this.inputsChanged}"
+          >
+          </mwc-textarea>
+
+          <mwc-textarea
+            rows="5"
+            id="mainParagraph"
+            class="rounded formField"
+            label="Main paragraph"
+            outlined
+            charCounter
+            maxLength="300"
+            @keydown="${this.inputsChanged}"
+          >
+          </mwc-textarea>
+
+          <md-outlined-text-field
+            class="formField"
+            id="callToAction"
+            @keydown="${this.inputsChanged}"
+            label="Link text"
+          ></md-outlined-text-field>
+
+          <mwc-textarea
+            rows="5"
+            id="footer"
+            class="rounded formField"
+            label="Footer"
+            outlined
+            charCounter
+            maxLength="300"
+            @keydown="${this.inputsChanged}"
+          >
+          </mwc-textarea>
+        </div>
+      </div>
+    `;
   }
 
   renderHelloWorldDialog() {
@@ -102,15 +240,47 @@ export class YpEmailTemplates extends YpBaseElement {
     `;
   }
 
+  renderMjml() {
+    const text = `
+      <mjml>
+        <mj-body>
+          <mj-section background-color="${this.backgroundColor}">
+            <mj-column>
+              <mj-image src="/assets/img/logo-small.png"></mj-image>
+
+              <mj-divider border-color="${this.primaryColor}"></mj-divider>
+
+              <mj-text font-size="20px" color="${this.accentColor}" font-family="helvetica"
+                >${this.mainParagraph}</mj-text>
+
+                <mj-button font-family="Helvetica" background-color="${this.accentColor}" color="white">
+                ${this.callToAction}
+               </mj-button>
+
+            </mj-column>
+          </mj-section>
+          <mj-section background-color="${this.backgroundColor}">
+            <mj-column>
+               <mj-text font-size="20px" color="#F45E43" font-family="helvetica">
+                ${this.footer}
+               </mj-text>
+               <mj-image src="/assets/img/logo-small.png"></mj-image>
+            </mj-column>
+          </mj-section>
+        </mj-body>
+      </mjml>
+    `
+
+    return html`<pre>${text}</pre>`;
+  }
+
   render() {
     return html`
-      <div class="layout vertical center-center">
-        <div class="something">Something = ${this.something}</div>
-        <md-fab-extended
-          icon="settings"
-          @click="${this.handleClicked}"
-          .label="${this.something}"
-        ></md-fab-extended>
+      <div class="layout horizontal">
+        <div class="layout vertical center-center">
+          ${this.renderTextInputs()}
+        </div>
+        <div class="layout vertical center-center">${this.renderMjml()}</div>
       </div>
       ${this.renderHelloWorldDialog()}
     `;
