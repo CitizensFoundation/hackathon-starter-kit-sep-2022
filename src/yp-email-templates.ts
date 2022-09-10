@@ -233,7 +233,6 @@ export class YpEmailTemplates extends YpBaseElement {
           border-radius: 16px;
           margin-top: 16px;
           margin-right: 24px;
-          margin-bottom: 64px;
           background-color: var( --md-sys-color-surface-variant);
           color: var( --md-sys-color-on-surface-variant);
         }
@@ -508,7 +507,7 @@ export class YpEmailTemplates extends YpBaseElement {
             <md-filled-button class="uploadButton" label="Upload"></md-filled-button>
           </div>
         </div>
-        <div class="@click="${this.nextPage}" layout vertical">
+        <div class="singleImage layout vertical">
           <yp-image class="imageImage" src="https://picsum.photos/320/180"></yp-image>
           <div class="imageCardHeader">Upload Header Image</div>
           <div class="imageCardText">This is the main image in the email.</div>
