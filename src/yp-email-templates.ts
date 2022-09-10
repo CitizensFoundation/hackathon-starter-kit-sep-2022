@@ -67,7 +67,7 @@ export class YpEmailTemplates extends YpBaseElement {
   callToAction: string | undefined;
 
   @property({ type: Number })
-  pageIndex = 3;
+  pageIndex = 1;
 
   emailTemplates = [
     {
@@ -263,6 +263,10 @@ export class YpEmailTemplates extends YpBaseElement {
         #headerFont {
           margin-top: 16px;
         }
+
+        .singleTemplate {
+          cursor: pointer;
+        }
       `,
     ];
   }
@@ -357,7 +361,7 @@ export class YpEmailTemplates extends YpBaseElement {
         <div class="topTemplateHeader">Select Template</div>
 
         <div class="layout horizontal templateRow">
-          <div class="singleTemplate">
+          <div class="singleTemplate" @click="${this.nextPage}">
             <yp-image
               sizing="cover"
               class="templateImage"
@@ -365,7 +369,7 @@ export class YpEmailTemplates extends YpBaseElement {
             ></yp-image>
             <div class="templateFooter">Description</div>
           </div>
-          <div class="singleTemplate">
+          <div class="singleTemplate" @click="${this.nextPage}">
             <yp-image
               sizing="cover"
               class="templateImage"
@@ -378,7 +382,7 @@ export class YpEmailTemplates extends YpBaseElement {
         <div class="topTemplateHeader saveTemplateHeader">Saved templates</div>
 
         <div class="layout horizontal templateRow">
-          <div class="singleTemplate">
+          <div class="singleTemplate" @click="${this.nextPage}">
             <yp-image
               sizing="cover"
               class="templateImage"
@@ -386,7 +390,7 @@ export class YpEmailTemplates extends YpBaseElement {
             ></yp-image>
             <div class="templateFooter">Description</div>
           </div>
-          <div class="singleTemplate">
+          <div class="singleTemplate" @click="${this.nextPage}">
             <yp-image
               sizing="cover"
               class="templateImage"
