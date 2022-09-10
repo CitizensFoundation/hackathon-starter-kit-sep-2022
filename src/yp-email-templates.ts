@@ -18,6 +18,7 @@ import '@material/web/button/tonal-button.js';
 import '@material/web/button/filled-button.js';
 import '@material/web/checkbox/checkbox.js';
 import '@material/web/iconbutton/standard-icon-button.js';
+import '@material/web/textfield/outlined-text-field.js';
 
 import { Dialog } from '@material/mwc-dialog';
 import { TonalButton } from '@material/web/button/lib/tonal-button.js';
@@ -54,6 +55,10 @@ export class YpEmailTemplates extends YpBaseElement {
         md-formfield {
           margin-top: 8px;
         }
+
+        md-outlined-text-field {
+          margin-top: 24px;
+        }
       `,
     ];
   }
@@ -69,6 +74,11 @@ export class YpEmailTemplates extends YpBaseElement {
       >
         <div class="layout vertical">
           Some information...
+
+          <md-outlined-text-field
+            class="formField"
+            label="Some input"
+          ></md-outlined-text-field>
 
           <md-formfield label="Something to check">
             <md-checkbox name="activeConfirmed"></md-checkbox>
