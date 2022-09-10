@@ -187,8 +187,8 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .templateImage {
-          width: 250px;
-          height: 260px;
+          width: 230px;
+          height: 240px;
         }
 
         .divider {
@@ -207,7 +207,7 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .singleTemplate {
-          margin: 24px;
+          margin: 22px;
         }
 
         .templateFooter {
@@ -217,7 +217,7 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         .page {
-          margin-top: 64px;
+          margin-top: 32px;
         }
       `,
     ];
