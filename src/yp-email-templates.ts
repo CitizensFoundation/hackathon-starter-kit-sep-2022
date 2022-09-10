@@ -67,7 +67,7 @@ export class YpEmailTemplates extends YpBaseElement {
   callToAction: string | undefined;
 
   @property({ type: Number })
-  pageIndex = 1;
+  pageIndex = 3;
 
   emailTemplates = [
     {
@@ -122,7 +122,7 @@ export class YpEmailTemplates extends YpBaseElement {
         }
 
         mwc-textarea {
-          width: 350px;
+          width: 600px;
           --mdc-theme-primary: var(--md-sys-color-primary);
           --mdc-text-field-ink-color: var(--md-sys-color-on-surface);
           --mdc-text-area-outlined-hover-border-color: var(
@@ -134,6 +134,10 @@ export class YpEmailTemplates extends YpBaseElement {
           --mdc-notched-outline-border-color: var(
             --md-sys-color-on-surface-variant
           );
+        }
+
+        md-outlined-text-field {
+          width: 350px;
         }
 
         mwc-textarea.rounded {
@@ -219,21 +223,64 @@ export class YpEmailTemplates extends YpBaseElement {
         .page {
           margin-top: 32px;
         }
+
+        #shortDescription {
+          margin-top: 24px;
+          margin-bottom: 16px;
+        }
+
+        .singleImage {
+          border-radius: 16px;
+          margin-top: 16px;
+          margin-right: 24px;
+          background-color: var( --md-sys-color-surface-variant);
+          color: var( --md-sys-color-on-surface-variant);
+        }
+
+        .imageImage {
+          margin-bottom: 8px;
+        }
+
+        .imageCardHeader {
+          padding: 8px;
+          font-weight: bold;
+        }
+
+        .imageCardText {
+          padding-left: 8px;
+          margin-bottom: 8px;
+        }
+
+        .imageButtons {
+          margin: 16px;
+          margin-left: 90px;
+        }
+
+        .uploadButton {
+          margin-left: 12px;
+        }
+
+        #headerFont {
+          margin-top: 16px;
+        }
       `,
     ];
   }
 
   async inputsChanged() {
-    this.callToAction = (this.$$('#callToAction') as OutlinedTextField).value;
-    this.primaryColor = (this.$$('#primaryColor') as OutlinedTextField).value;
-    this.accentColor = (this.$$('#accentColor') as OutlinedTextField).value;
-    this.backgroundColor = (
-      this.$$('#backgroundColor') as OutlinedTextField
-    ).value;
-    this.emailTitle = (this.$$('#emailTitle') as OutlinedTextField).value;
-    this.shortDescription = (this.$$('#shortDescription') as TextArea).value;
-    this.mainParagraph = (this.$$('#mainParagraph') as TextArea).value;
-    this.footer = (this.$$('#footer') as TextArea).value;
+    if (this.$$('#primaryColor')) {
+      this.primaryColor = (this.$$('#primaryColor') as OutlinedTextField).value;
+      this.accentColor = (this.$$('#accentColor') as OutlinedTextField).value;
+      this.backgroundColor = (
+        this.$$('#backgroundColor') as OutlinedTextField
+      ).value;
+    } else {
+      this.callToAction = (this.$$('#callToAction') as OutlinedTextField).value;
+      this.emailTitle = (this.$$('#emailTitle') as OutlinedTextField).value;
+      this.shortDescription = (this.$$('#shortDescription') as TextArea).value;
+      this.mainParagraph = (this.$$('#mainParagraph') as TextArea).value;
+      //this.footer = (this.$$('#footer') as TextArea).value;
+    }
   }
 
   renderTextInputs() {
@@ -355,11 +402,15 @@ export class YpEmailTemplates extends YpBaseElement {
 
   renderColorAndFonts() {
     return html`
-      <div class="layout horizontal wrap">
+      <div class="layout vertical wrap">
+      <div class="topTemplateHeader">
+        Colors & Fonts
+      </div>
+
         <md-outlined-text-field
           class="formField"
           id="primaryColor"
-          @keydown="${this.inputsChanged}"
+          @keyup="${this.inputsChanged}"
           label="Primary color"
           .value="${this.primaryColor}"
         ></md-outlined-text-field>
@@ -367,7 +418,7 @@ export class YpEmailTemplates extends YpBaseElement {
         <md-outlined-text-field
           class="formField"
           id="accentColor"
-          @keydown="${this.inputsChanged}"
+          @keyup="${this.inputsChanged}"
           label="Accent color"
           .value="${this.accentColor}"
         ></md-outlined-text-field>
@@ -375,9 +426,23 @@ export class YpEmailTemplates extends YpBaseElement {
         <md-outlined-text-field
           class="formField"
           id="backgroundColor"
-          @keydown="${this.inputsChanged}"
+          @keyup="${this.inputsChanged}"
           label="Background color"
           .value="${this.backgroundColor}"
+        ></md-outlined-text-field>
+
+        <md-outlined-text-field
+          class="formField"
+          id="headerFont"
+          @keyup="${this.inputsChanged}"
+          label="Header Font"
+        ></md-outlined-text-field>
+
+        <md-outlined-text-field
+          class="formField"
+          id="bodyFont"
+          @keyup="${this.inputsChanged}"
+          label="Body Font"
         ></md-outlined-text-field>
       </div>
     `;
@@ -393,14 +458,14 @@ export class YpEmailTemplates extends YpBaseElement {
       <md-outlined-text-field
         class="formField"
         id="emailTitle"
-        @keydown="${this.inputsChanged}"
+        @keyup="${this.inputsChanged}"
         label="Title"
       ></md-outlined-text-field>
 
       <md-outlined-text-field
         class="formField"
         id="callToAction"
-        @keydown="${this.inputsChanged}"
+        @keyup="${this.inputsChanged}"
         label="Call to action"
       ></md-outlined-text-field>
 
@@ -412,7 +477,7 @@ export class YpEmailTemplates extends YpBaseElement {
         outlined
         charCounter
         maxLength="250"
-        @keydown="${this.inputsChanged}"
+        @keyup="${this.inputsChanged}"
       >
       </mwc-textarea>
 
@@ -424,9 +489,30 @@ export class YpEmailTemplates extends YpBaseElement {
         outlined
         charCounter
         maxLength="300"
-        @keydown="${this.inputsChanged}"
+        @keyup="${this.inputsChanged}"
       >
       </mwc-textarea>
+
+      <div class="layout horizontal wrap">
+        <div class="singleImage layout vertical">
+          <yp-image class="imageImage" src="https://picsum.photos/320/180?random=123"></yp-image>
+          <div class="imageCardHeader">Upload Header Image</div>
+          <div class="imageCardText">This is the main image in the email.</div>
+          <div class="imageButtons layout horizontal self-end">
+            <md-outlined-button label="Replace"></md-outlined-button>
+            <md-filled-button class="uploadButton" label="Upload"></md-filled-button>
+          </div>
+        </div>
+        <div class="singleImage layout vertical">
+          <yp-image class="imageImage" src="https://picsum.photos/320/180"></yp-image>
+          <div class="imageCardHeader">Upload Header Image</div>
+          <div class="imageCardText">This is the main image in the email.</div>
+          <div class="imageButtons layout horizontal self-end">
+            <md-outlined-button label="Replace"></md-outlined-button>
+            <md-filled-button class="uploadButton" label="Upload"></md-filled-button>
+          </div>
+        </div>
+      </div>
     </div>
     `;
   }
@@ -440,7 +526,7 @@ export class YpEmailTemplates extends YpBaseElement {
       case PagesTypes.Texts:
         return this.renderTextsAndImageInputs();
       case PagesTypes.Preview:
-        return this.renderPreview();
+        return this.renderPreviewMjml();
     }
   }
 
@@ -471,7 +557,7 @@ export class YpEmailTemplates extends YpBaseElement {
         <div class="divider" style="border-color: ${this.primaryColor}"></div>
 
         <div class="mainText" style="color:${this.accentColor}">
-          ${this.mainParagraph}
+          ${this.shortDescription}
         </div>
 
         <div class="button" style="background-color:${this.accentColor}">
@@ -479,7 +565,7 @@ export class YpEmailTemplates extends YpBaseElement {
         </div>
 
         <div class="divider" style="border-color: ${this.primaryColor}"></div>
-        <div class="mainText" color="${this.accentColor}">${this.footer}</div>
+        <div class="mainText" color="${this.accentColor}">${this.mainParagraph}</div>
         <yp-image
           class="footerImage"
           sizing="cover"
